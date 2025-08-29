@@ -38,7 +38,7 @@ class LoginPage extends StatelessWidget {
             ),
             TextField(
               decoration: InputDecoration(
-                labelText: 'Password',
+                labelText: 'Contraseña',
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
@@ -48,12 +48,35 @@ class LoginPage extends StatelessWidget {
               obscureText: true,
             ),
             const SizedBox(height: 20), // espacio entre texto y botón
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/home');
-              },
-              child: const Text('Login'),
+           ElevatedButton(
+            onPressed: () {
+              Navigator.pushNamed(context, '/home');
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.green,
             ),
+            child: const Text(
+              'Iniciar sesión',
+              style: TextStyle(
+                color: Colors.white, // 👈 en lugar de backgroundColor dentro del texto
+              ),
+            ),
+          ),
+
+          const SizedBox(height: 10), // espacio entre los botones y el texto
+
+          const Text('¿No tienes cuenta?'),
+
+          ElevatedButton(
+            onPressed: () {},
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.black,
+            ),
+            child: const Text(
+              'Regístrate',
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
           ],
         ),
       ),
