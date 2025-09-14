@@ -1,3 +1,4 @@
+import 'package:f_ecommerce/src/presentation/widgets/DefaultTextfield.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatelessWidget {
@@ -47,33 +48,11 @@ class LoginPage extends StatelessWidget {
                   ),
                   Container(
                     margin: EdgeInsets.only(top: 20, left: 25, right: 25), // espacio entre el texto y el TextField
-                    child: TextField(
-                      decoration: InputDecoration(
-                        label: Text('Correo electrónico', style: TextStyle(color: Colors.white),),
-                        enabledBorder: UnderlineInputBorder( // borde cuando no está enfocado
-                          borderSide: BorderSide(color: Colors.white),
-                        ),
-                        focusedBorder: UnderlineInputBorder( // borde cuando está enfocado
-                          borderSide: BorderSide(color: Colors.white),
-                        ),
-                        prefixIcon: Icon(Icons.email, color: Colors.white,),
-                      ),
-                    ),
+                    child: DefaultTextfield(label: 'Correo electrónico', icon: Icons.email, onChanged: (text) {})
                   ),
                   Container(
                     margin: EdgeInsets.only(left: 25, right: 25), // espacio entre los dos TextField
-                    child: TextField(
-                      decoration: InputDecoration(
-                        label: Text('Contraseña', style: TextStyle(color: Colors.white),),
-                        enabledBorder: UnderlineInputBorder( // borde cuando no está enfocado
-                          borderSide: BorderSide(color: Colors.white),
-                        ),
-                        focusedBorder: UnderlineInputBorder( // borde cuando está enfocado
-                          borderSide: BorderSide(color: Colors.white),
-                        ),
-                        prefixIcon: Icon(Icons.lock, color: Colors.white,),
-                      ),
-                    ),
+                    child: DefaultTextfield(label: 'Contraseña', icon: Icons.lock, onChanged: (text) {}, obscureText: true)
                   ),
                   const SizedBox(height: 20), // espacio entre texto y botón
                  Container(
