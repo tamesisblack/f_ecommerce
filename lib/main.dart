@@ -1,4 +1,5 @@
 import 'package:f_ecommerce/src/presentation/pages/auth/login/LoginPage.dart';
+import 'package:f_ecommerce/src/presentation/pages/auth/register/RegisterPage.dart';
 import 'package:flutter/material.dart';
 
 void main(){
@@ -18,6 +19,7 @@ class MyApp extends StatelessWidget {
       initialRoute: 'login',
       routes: {
         'login': (BuildContext context) => const LoginPage(),
+        'register': (BuildContext context) => const RegisterPage(),
       },
     );
   }
