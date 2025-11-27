@@ -1,11 +1,25 @@
+import 'package:f_ecommerce/src/presentation/pages/auth/login/LoginBlocCubit.dart';
 import 'package:f_ecommerce/src/presentation/widgets/DefaultTextfield.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
   @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+   LoginBlocCubit? _loginBlocCubit;
+   @override
+   void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    _loginBlocCubit = BlocProvider.of<LoginBlocCubit>(context, listen: true);
     return Scaffold(
       body: Container(
         width: double.infinity, // ocupa todo el ancho
@@ -48,11 +62,33 @@ class LoginPage extends StatelessWidget {
                   ),
                   Container(
                     margin: EdgeInsets.only(top: 20, left: 25, right: 25), // espacio entre el texto y el TextField
-                    child: DefaultTextfield(label: 'Correo electrónico', icon: Icons.email, onChanged: (text) {})
+                    child: StreamBuilder(
+                      stream: _loginBlocCubit?.emailStream,
+                      builder: (context, asyncSnapshot) {
+                        return DefaultTextfield(
+                          label: 'Correo electrónico',
+                          icon: Icons.email,
+                          onChanged: (text) {
+                            _loginBlocCubit?.changeEmail(text);
+                          });
+                      }
+                    )
                   ),
                   Container(
                     margin: EdgeInsets.only(left: 25, right: 25), // espacio entre los dos TextField
-                    child: DefaultTextfield(label: 'Contraseña', icon: Icons.lock, onChanged: (text) {}, obscureText: true)
+                    child: StreamBuilder(
+                      stream: _loginBlocCubit?.passwordStream,
+                      builder: (context, asyncSnapshot) {
+                        return DefaultTextfield(
+                          label: 'Contraseña',
+                          icon: Icons.lock,
+                          onChanged: (text) {
+                            _loginBlocCubit?.changePassword(text);
+                          },
+                          obscureText: true,
+                        );
+                      }
+                    )
                   ),
                   const SizedBox(height: 20), // espacio entre texto y botón
                  Container(
