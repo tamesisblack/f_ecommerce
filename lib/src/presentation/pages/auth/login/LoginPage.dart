@@ -2,6 +2,7 @@ import 'package:f_ecommerce/src/presentation/pages/auth/login/LoginBlocCubit.dar
 import 'package:f_ecommerce/src/presentation/widgets/DefaultTextfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -15,6 +16,10 @@ class _LoginPageState extends State<LoginPage> {
    @override
    void initState() {
     super.initState();
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      _loginBlocCubit?.dispose();
+    });
+    
   }
 
   @override
@@ -95,20 +100,40 @@ class _LoginPageState extends State<LoginPage> {
                     width: MediaQuery.of(context).size.width, // ancho del botón
                     height: 55,
                     margin: EdgeInsets.only(left: 25, right: 25, top: 25, bottom: 15),// margen a los lados
-                    child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/home');
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green,
+                    child: StreamBuilder(
+                      stream: _loginBlocCubit?.isFormValidStream,
+                      builder: (context, asyncSnapshot) {
+                        return ElevatedButton(
+                        onPressed: () {
+                          if(asyncSnapshot.hasData){
+                              _loginBlocCubit?.login();
+                          }else{
+                            print("Formulario no válido");
+                           Fluttertoast.showToast(
+                                msg: "Por favor, complete el formulario correctamente",
+                                toastLength: Toast.LENGTH_LONG,
+                                gravity: ToastGravity.CENTER,
+                                timeInSecForIosWeb: 1,
+                                backgroundColor: Colors.red,
+                                textColor: Colors.white,
+                                fontSize: 16.0
+                            );
+                          }
+                        
+                         // Navigator.pushNamed(context, '/home');
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: asyncSnapshot.hasData ? Colors.green : Colors.grey,
+                        ),
+                        child: const Text(
+                          'Iniciar sesión',
+                          style: TextStyle(
+                            color: Colors.white, // 👈 en lugar de backgroundColor dentro del texto
+                          ),
+                        ),
+                                       );
+                      }
                     ),
-                    child: const Text(
-                      'Iniciar sesión',
-                      style: TextStyle(
-                        color: Colors.white, // 👈 en lugar de backgroundColor dentro del texto
-                      ),
-                    ),
-                                   ),
                  ),
               
                 const SizedBox(height: 10), // espacio entre los botones y el texto

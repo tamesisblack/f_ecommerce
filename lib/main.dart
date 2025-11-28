@@ -3,6 +3,7 @@ import 'package:f_ecommerce/src/presentation/pages/auth/login/LoginPage.dart';
 import 'package:f_ecommerce/src/presentation/pages/auth/register/RegisterPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,6 +17,7 @@ class MyApp extends StatelessWidget {
     return BlocProvider (
       create: (context) => LoginBlocCubit(),
       child: MaterialApp(
+        builder: FToastBuilder(),
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(primarySwatch: Colors.blue),
