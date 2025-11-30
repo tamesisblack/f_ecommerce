@@ -1,12 +1,30 @@
+import 'package:f_ecommerce/src/presentation/pages/auth/register/RegisterBlocCubit.dart';
 import 'package:f_ecommerce/src/presentation/widgets/DefaultButton.dart';
 import 'package:f_ecommerce/src/presentation/widgets/DefaultIconBack.dart';
 import 'package:f_ecommerce/src/presentation/widgets/DefaultTextfield.dart';
 import 'package:flutter/material.dart';
-class RegisterPage extends StatelessWidget {
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
 
   @override
+  State<RegisterPage> createState() => _RegisterPageState();
+}
+
+class _RegisterPageState extends State<RegisterPage> {
+  RegisterBlocCubit? registerBlocCubit;
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      registerBlocCubit?.dispose();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    registerBlocCubit = BlocProvider.of<RegisterBlocCubit>(context,listen:false);
     return Scaffold(
       body: Container(
         height: MediaQuery.of(context).size.height,
@@ -31,34 +49,96 @@ class RegisterPage extends StatelessWidget {
                     style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),),
                     Container(
                       margin: EdgeInsets.only(top: 20, left: 25, right: 25), // espacio entre el texto y el TextField
-                      child: DefaultTextfield(label: 'Nombre', icon: Icons.person, onChanged: (value) {})
+                      child: StreamBuilder(
+                        stream: registerBlocCubit?.nameStream,
+                        builder: (context, asyncSnapshot) {
+                          return DefaultTextfield(label: 'Nombre', icon: Icons.person, onChanged: (value) {
+                            registerBlocCubit?.changeName(value);
+                          });
+                        }
+                      )
                     ),
                     Container(
                       margin: EdgeInsets.only(top: 20, left: 25, right: 25), // espacio entre el texto y el TextField
-                      child: DefaultTextfield(label: 'Apellido', icon: Icons.person, onChanged: (value) {})
+                      child: StreamBuilder(
+                        stream: registerBlocCubit?.lastnameStream,
+                        builder: (context, asyncSnapshot) {
+                          return DefaultTextfield(label: 'Apellido', icon: Icons.person, onChanged: (value) {
+                            registerBlocCubit?.changeLastname(value);
+                          });
+                        }
+                      )
                     ),
                     Container(
                       margin: EdgeInsets.only(top: 20, left: 25, right: 25), // espacio entre el texto y el TextField   
-                      child: DefaultTextfield(label: 'Email', icon: Icons.email, onChanged: (value) {})
+                      child: StreamBuilder(
+                        stream: registerBlocCubit?.emailStream,
+                        builder: (context, asyncSnapshot) {
+                          return DefaultTextfield(label: 'Email', icon: Icons.email, onChanged: (value) {
+                            registerBlocCubit?.changeEmail(value);
+                          });
+                        }
+                      )
                     ),
                       Container(
                       margin: EdgeInsets.only(top: 20, left: 25, right: 25), // espacio entre el texto y el TextField
-                      child: DefaultTextfield(label: 'Telefono', icon: Icons.phone, onChanged: (value) {})
+                      child: StreamBuilder(
+                        stream:  registerBlocCubit?.phoneStream,
+                        builder: (context, asyncSnapshot) {
+                          return DefaultTextfield(label: 'Telefono', icon: Icons.phone, onChanged: (value) {
+                            registerBlocCubit?.changePhone(value);
+                          });
+                        }
+                      )
                     ),
                     
                     Container(
                       margin: EdgeInsets.only(top: 20, left: 25, right: 25), // espacio entre el texto y el TextField
-                      child: DefaultTextfield(label: 'Contraseña', icon: Icons.lock, onChanged: (value) {}, obscureText: true,)
+                      child: StreamBuilder(
+                        stream: registerBlocCubit?.passwordStream,
+                        builder: (context, asyncSnapshot) {
+                          return DefaultTextfield(label: 'Contraseña', icon: Icons.lock, onChanged: (value) {
+                            registerBlocCubit?.changePassword(value);
+                          }, obscureText: true);
+                        }
+                      )
                     ),
                     Container(
                       margin: EdgeInsets.only(top: 20, left: 25, right: 25), // espacio entre el texto y el TextField
-                      child: DefaultTextfield(label: 'Confirmar Contraseña', icon: Icons.lock_outline, onChanged: (value) {}, obscureText: true,)
+                      child: StreamBuilder(
+                        stream:  registerBlocCubit?.confirmPasswordStream,
+                        builder: (context, asyncSnapshot) {
+                          return DefaultTextfield(label: 'Confirmar Contraseña', icon: Icons.lock_outline, onChanged: (value) {
+                            registerBlocCubit?.changeConfirmPassword(value);
+                          }, obscureText: true,);
+                        }
+                      )
                     ),
                     Container(
                       margin: EdgeInsets.only(top: 20, left: 25, right: 25), // espacio entre el texto y el botón
-                      child: Defaultbutton(text: 'REGISTRARSE', onPressed: () {
-                        // Acción a realizar al presionar el botón
-                      }, color: Colors.black,),
+                      child: StreamBuilder(
+                        stream: registerBlocCubit?.isFormValidStream,
+                        builder: (context, asyncSnapshot) {
+                          return Defaultbutton(text: 'REGISTRARSE', onPressed: () {
+                            if(asyncSnapshot.hasData){
+                              registerBlocCubit?.register();
+                            }else{
+                              //imprimir el error de cubit 
+                              
+
+                              Fluttertoast.showToast(
+                                msg: "Por favor, complete el formulario correctamente",
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.BOTTOM,
+                                timeInSecForIosWeb: 1,
+                                backgroundColor: Colors.red,
+                                textColor: Colors.white,
+                                fontSize: 16.0
+                              );
+                            }
+                          }, color: Colors.black,);
+                        }
+                      ),
                     ),
                   ],
                 ),

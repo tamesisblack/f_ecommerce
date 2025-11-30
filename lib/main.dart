@@ -1,3 +1,4 @@
+import 'package:f_ecommerce/src/blocProviders.dart';
 import 'package:f_ecommerce/src/presentation/pages/auth/login/LoginBlocCubit.dart';
 import 'package:f_ecommerce/src/presentation/pages/auth/login/LoginPage.dart';
 import 'package:f_ecommerce/src/presentation/pages/auth/register/RegisterPage.dart';
@@ -14,8 +15,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider (
-      create: (context) => LoginBlocCubit(),
+    return MultiBlocProvider(
+      providers: [
+        ...blocProviders
+      ],
       child: MaterialApp(
         builder: FToastBuilder(),
         title: 'Flutter Demo',
