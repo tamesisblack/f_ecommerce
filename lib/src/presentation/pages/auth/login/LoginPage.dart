@@ -73,6 +73,7 @@ class _LoginPageState extends State<LoginPage> {
                         return DefaultTextfield(
                           label: 'Correo electrónico',
                           icon: Icons.email,
+                          errorText: asyncSnapshot.error?.toString() ,
                           onChanged: (text) {
                             _loginBlocCubit?.changeEmail(text);
                           });
@@ -90,6 +91,7 @@ class _LoginPageState extends State<LoginPage> {
                           onChanged: (text) {
                             _loginBlocCubit?.changePassword(text);
                           },
+                          errorText: asyncSnapshot.error?.toString() ,
                           obscureText: true,
                         );
                       }

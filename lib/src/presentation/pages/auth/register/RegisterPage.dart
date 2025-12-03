@@ -52,7 +52,9 @@ class _RegisterPageState extends State<RegisterPage> {
                       child: StreamBuilder(
                         stream: registerBlocCubit?.nameStream,
                         builder: (context, asyncSnapshot) {
-                          return DefaultTextfield(label: 'Nombre', icon: Icons.person, onChanged: (value) {
+                          return DefaultTextfield(label: 'Nombre', icon: Icons.person,
+                          errorText: asyncSnapshot.error?.toString(),
+                          onChanged: (value) {
                             registerBlocCubit?.changeName(value);
                           });
                         }
@@ -63,7 +65,9 @@ class _RegisterPageState extends State<RegisterPage> {
                       child: StreamBuilder(
                         stream: registerBlocCubit?.lastnameStream,
                         builder: (context, asyncSnapshot) {
-                          return DefaultTextfield(label: 'Apellido', icon: Icons.person, onChanged: (value) {
+                          return DefaultTextfield(label: 'Apellido', icon: Icons.person,
+                          errorText: asyncSnapshot.error?.toString(),
+                          onChanged: (value) {
                             registerBlocCubit?.changeLastname(value);
                           });
                         }
@@ -74,7 +78,9 @@ class _RegisterPageState extends State<RegisterPage> {
                       child: StreamBuilder(
                         stream: registerBlocCubit?.emailStream,
                         builder: (context, asyncSnapshot) {
-                          return DefaultTextfield(label: 'Email', icon: Icons.email, onChanged: (value) {
+                          return DefaultTextfield(label: 'Email', icon: Icons.email,
+                          errorText: asyncSnapshot.error?.toString(),
+                          onChanged: (value) {
                             registerBlocCubit?.changeEmail(value);
                           });
                         }
@@ -85,7 +91,9 @@ class _RegisterPageState extends State<RegisterPage> {
                       child: StreamBuilder(
                         stream:  registerBlocCubit?.phoneStream,
                         builder: (context, asyncSnapshot) {
-                          return DefaultTextfield(label: 'Telefono', icon: Icons.phone, onChanged: (value) {
+                          return DefaultTextfield(label: 'Telefono', icon: Icons.phone, 
+                          errorText: asyncSnapshot.error?.toString(),
+                          onChanged: (value) {
                             registerBlocCubit?.changePhone(value);
                           });
                         }
@@ -97,7 +105,9 @@ class _RegisterPageState extends State<RegisterPage> {
                       child: StreamBuilder(
                         stream: registerBlocCubit?.passwordStream,
                         builder: (context, asyncSnapshot) {
-                          return DefaultTextfield(label: 'Contraseña', icon: Icons.lock, onChanged: (value) {
+                          return DefaultTextfield(label: 'Contraseña', icon: Icons.lock, 
+                          errorText: asyncSnapshot.error?.toString(),
+                          onChanged: (value) {
                             registerBlocCubit?.changePassword(value);
                           }, obscureText: true);
                         }
@@ -108,7 +118,9 @@ class _RegisterPageState extends State<RegisterPage> {
                       child: StreamBuilder(
                         stream:  registerBlocCubit?.confirmPasswordStream,
                         builder: (context, asyncSnapshot) {
-                          return DefaultTextfield(label: 'Confirmar Contraseña', icon: Icons.lock_outline, onChanged: (value) {
+                          return DefaultTextfield(label: 'Confirmar Contraseña', icon: Icons.lock_outline,
+                          errorText: asyncSnapshot.error?.toString(),
+                          onChanged: (value) {
                             registerBlocCubit?.changeConfirmPassword(value);
                           }, obscureText: true,);
                         }
